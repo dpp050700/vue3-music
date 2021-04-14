@@ -5,6 +5,15 @@
   white-space: nowrap;
 }
 
+@mixin more-line-ellipsis($n) {
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $n;
+  -webkit-box-orient: vertical;
+}
+
 // 扩展小图标按钮的点击区域
 @mixin extend-click() {
   position: relative;

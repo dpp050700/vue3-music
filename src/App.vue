@@ -1,9 +1,21 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
+  <music-header></music-header>
+  <tabs />
   <router-view />
 </template>
+
+<script>
+import MusicHeader from "@/components/header/header";
+import Tabs from "@/components/tabs/tabs";
+export default {
+  components: {
+    MusicHeader,
+    Tabs,
+  },
+  data: function () {
+    return {};
+  },
+};
+</script>
 
 <style></style>
