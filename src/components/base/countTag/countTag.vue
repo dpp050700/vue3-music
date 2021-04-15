@@ -10,7 +10,7 @@ export default {
   name: "",
   props: {
     count: {
-      type: Number,
+      type: [Number, String],
       default: 0,
     },
     icon: {
