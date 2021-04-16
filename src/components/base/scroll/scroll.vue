@@ -14,14 +14,18 @@ export default {
       type: Boolean,
       default: true,
     },
+    probeType: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {};
   },
-  methods: {},
-  setup(props) {
+  emits: ["scroll"],
+  setup(props, { emit }) {
     const scrollWrapper = ref(null);
-    useScroll(scrollWrapper, props);
+    useScroll(scrollWrapper, props, emit);
 
     return {
       scrollWrapper,

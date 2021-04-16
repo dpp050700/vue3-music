@@ -28,11 +28,14 @@ export default {
   .singer-list-item {
     display: flex;
     align-items: center;
+    padding-top: 20px;
+    padding-left: 30px;
     img {
       width: 42px;
       height: 42px;
       display: block;
       border-radius: 50%;
+      margin-right: 20px;
     }
   }
 }
