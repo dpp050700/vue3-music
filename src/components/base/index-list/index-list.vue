@@ -1,5 +1,10 @@
 <template>
-  <scroll class="indexList" @scroll="onScrollHandler" :probe-type="3">
+  <scroll
+    class="indexList"
+    @scroll="onScrollHandler"
+    :probe-type="3"
+    ref="scrollRef"
+  >
     <ul class="index-list-wrapper" ref="groupRef">
       <li v-for="group in list" :key="group.initial" class="index-list-group">
         <h1 class="index-list-group_initial">{{ group.initial }}</h1>
@@ -11,6 +16,8 @@
       @move="indexChange"
       :probe-type="[0, 2]"
       class="shortcut-content"
+      :list="shortcutList"
+      is-custom
     ></shortcut>
     <div class="fix-initial" v-if="fixedTitle" :style="fixedTranslate">
       {{ fixedTitle }}
@@ -23,6 +30,7 @@ import Scroll from "@/components/base/scroll/scroll";
 import SingerList from "@/components/singer-list/singer-list";
 import Shortcut from "@/components/base/shortcut/shortcut";
 import useFixed from "./use-fixed";
+import useShortcut from "./use-shortcut";
 export default {
   name: "",
   props: {
@@ -41,7 +49,13 @@ export default {
   },
   methods: {
     indexChange(index) {
-      console.log(index);
+      this.scrollToElement(index);
+    },
+  },
+  computed: {
+    shortcutList() {
+      let res = this.list.map((item) => item.initial);
+      return res;
     },
   },
   setup(props) {
@@ -53,12 +67,16 @@ export default {
       fixedTranslate,
     } = useFixed(props);
 
+    const { scrollRef, scrollToElement } = useShortcut(props, groupRef);
+
     return {
       onScrollHandler,
       groupRef,
       currentIndex,
       fixedTitle,
       fixedTranslate,
+      scrollRef,
+      scrollToElement,
     };
   },
 };

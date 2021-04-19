@@ -25,9 +25,10 @@ export default {
   emits: ["scroll"],
   setup(props, { emit }) {
     const scrollWrapper = ref(null);
-    useScroll(scrollWrapper, props, emit);
+    const scroll = useScroll(scrollWrapper, props, emit);
 
     return {
+      scroll,
       scrollWrapper,
     };
   },
