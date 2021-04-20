@@ -10,7 +10,10 @@ export default function useShortcut(shortcutRef, props, emit) {
     const startIndex = parseInt(e.target.dataset.index);
     touch.startY = e.touches[0].pageY;
     touch.startIndex = startIndex;
-    probeType.includes(0) && emit("change", startIndex);
+    if (probeType.includes(0)) {
+      emit("change", startIndex);
+      emit("update:currentIndex", startIndex);
+    }
   };
 
   const onTouchMove = (e) => {
@@ -20,6 +23,7 @@ export default function useShortcut(shortcutRef, props, emit) {
     const delta = ((touch.currentY - touch.startY) / ANCHOR_HEIGHT) | 0;
     touch.currentIndex = touch.startIndex + delta;
     emit("move", touch.currentIndex);
+    emit("update:currentIndex", touch.currentIndex);
   };
 
   const onTouchEnd = (e) => {
@@ -29,6 +33,7 @@ export default function useShortcut(shortcutRef, props, emit) {
     const delta = ((touch.currentY - touch.startY) / ANCHOR_HEIGHT) | 0;
     touch.currentIndex = touch.startIndex + delta;
     emit("change", touch.currentIndex);
+    emit("update:currentIndex", touch.currentIndex);
   };
 
   onMounted(() => {

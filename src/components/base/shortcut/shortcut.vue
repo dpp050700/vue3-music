@@ -10,6 +10,7 @@
         v-for="(item, index) in shortcutList"
         :key="item"
         :data-index="index"
+        :class="{ current: currentIndex === index }"
       >
         {{ item }}
       </li>
@@ -71,6 +72,7 @@ export default {
       type: [Number, Array], // 0, 1, 2
       default: 0,
     },
+    currentIndex: Number,
   },
   data() {
     return {};

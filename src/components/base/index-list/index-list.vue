@@ -18,6 +18,7 @@
       class="shortcut-content"
       :list="shortcutList"
       is-custom
+      v-model:currentIndex="currentIndex"
     ></shortcut>
     <div class="fix-initial" v-if="fixedTitle" :style="fixedTranslate">
       {{ fixedTitle }}
