@@ -1,9 +1,5 @@
 <template>
   <div class="singer">
-    <!-- <div>
-      <h1>热门歌手</h1>
-      <span>更多</span>
-    </div> -->
     <index-list :list="singerList"></index-list>
   </div>
 </template>

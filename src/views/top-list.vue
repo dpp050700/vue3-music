@@ -1,10 +1,15 @@
 <template>
-  <div class="topList">top-list</div>
+  <div class="topList">
+    <singer-top-list></singer-top-list>
+  </div>
 </template>
 
 <script>
+import SingerTopList from "@/components/singer-top-list/singer-top-list.vue";
 export default {
   name: "TopList",
-  components: {},
+  components: {
+    SingerTopList,
+  },
 };
 </script>
