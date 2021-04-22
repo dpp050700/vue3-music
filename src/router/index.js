@@ -5,7 +5,8 @@ const Singer = () =>
   import(/* webpackChunkName: "singer" */ "@/views/singer.vue");
 const TopList = () =>
   import(/* webpackChunkName: "hot-list" */ "@/views/top-list.vue");
-
+const SingerTopList = () =>
+  import(/* webpackChunkName: "hot-list" */ "@/views/singer-top-list.vue");
 const routes = [
   {
     path: "/",
@@ -25,6 +26,11 @@ const routes = [
     path: "/top-list",
     name: "TopList",
     component: TopList,
+  },
+  {
+    path: "/singer-top-list",
+    name: "SingerTopList",
+    component: SingerTopList,
   },
 ];
 

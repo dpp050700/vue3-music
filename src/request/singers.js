@@ -47,3 +47,9 @@ export const getSingerTopList = async () => {
     return a.initial.charCodeAt(0) - b.initial.charCodeAt(0);
   });
 };
+
+export const getSingerList = async () => {
+  let { artists } = await get("/artist/list?type=1&area=96&initial=-1");
+  console.log(artists);
+  return artists;
+};
