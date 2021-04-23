@@ -9,7 +9,7 @@
         <span>name</span>
         <span>singer</span>
       </div>
-      <div>查看全部</div>
+      <div class="top-item-list_content-more">查看全部</div>
     </div>
   </div>
 </template>
@@ -23,6 +23,7 @@ export default {
       type: Array,
       default: () => [],
     },
+    id: String,
   },
   components: {},
 };
@@ -37,6 +38,16 @@ export default {
       display: block;
       width: 100%;
     }
+  }
+  .top-item-list_content {
+    flex: 1;
+  }
+  .top-item-list_content-info {
+    height: 130px;
+  }
+  .top-item-list_content-more {
+    height: 20px;
+    line-height: 20px;
   }
 }
 </style>
