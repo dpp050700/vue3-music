@@ -4,11 +4,20 @@
       <img :src="cover" />
     </div>
     <div class="top-item-list_content">
-      <div class="top-item-list_content-info">
-        <span>1</span>
-        <span>name</span>
-        <span>singer</span>
-      </div>
+      <ul class="top-item-list_content-info" v-if="type === 1">
+        <li v-for="(item, index) in list" :key="index">
+          <span>1</span>
+          <span>{{ item.name }}</span>
+        </li>
+      </ul>
+      <ul class="top-item-list_content-info" v-else>
+        <li v-for="(item, index) in list" :key="index">
+          <span>1</span>
+          <span>{{ item.first }}</span>
+          -
+          <span>{{ item.second }}</span>
+        </li>
+      </ul>
       <div class="top-item-list_content-more">查看全部</div>
     </div>
   </div>
@@ -24,6 +33,7 @@ export default {
       default: () => [],
     },
     id: String,
+    type: Number,
   },
   components: {},
 };

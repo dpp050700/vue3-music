@@ -1,9 +1,6 @@
 import { get } from "./axios";
 
 export const getTopList = async () => {
-  let { artistToplist, list } = await get("/toplist");
-  return {
-    artistToplist,
-    list,
-  };
+  let { list } = await get("/toplist/detail");
+  return list;
 };

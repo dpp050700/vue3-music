@@ -50,6 +50,12 @@ export const getSingerTopList = async () => {
 
 export const getSingerList = async () => {
   let { artists } = await get("/artist/list?type=1&area=96&initial=-1");
-  console.log(artists);
   return artists;
+};
+
+export const getSingerTopDetail = async () => {
+  let {
+    list: { artists = [] },
+  } = await get("/toplist/artist");
+  return artists.splice(0, 3);
 };
