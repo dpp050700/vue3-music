@@ -18,6 +18,10 @@ export default {
       type: Number,
       default: 0,
     },
+    direction: {
+      type: String,
+      default: "vertical",
+    },
   },
   data() {
     return {};

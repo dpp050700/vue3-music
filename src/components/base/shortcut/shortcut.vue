@@ -1,10 +1,14 @@
 <template>
-  <div
-    ref="shortcutRef"
-    :class="wrapperClass"
-    @touchstart.stop.prevent="onTouchStart"
+  <scroll
+    direction="horizontal"
+    class="scroll"
+    v-if="direction === 'horizontal'"
   >
-    <ul>
+    <ul
+      ref="shortcutRef"
+      :class="wrapperClass"
+      @touchstart.stop.prevent="onTouchStart"
+    >
       <li
         class="item"
         v-for="(item, index) in shortcutList"
@@ -15,7 +19,23 @@
         {{ item }}
       </li>
     </ul>
-  </div>
+  </scroll>
+  <ul
+    v-else
+    ref="shortcutRef"
+    :class="wrapperClass"
+    @touchstart.stop.prevent="onTouchStart"
+  >
+    <li
+      class="item"
+      v-for="(item, index) in shortcutList"
+      :key="item"
+      :data-index="index"
+      :class="{ current: currentIndex === index }"
+    >
+      {{ item }}
+    </li>
+  </ul>
 </template>
 
 <script>
@@ -49,9 +69,11 @@ const defaultList = [
   "Z",
 ];
 import { ref } from "vue";
+import Scroll from "@/components/base/scroll/scroll";
 import useShortcut from "./use-shortcut";
 export default {
   name: "Shortcut",
+  components: { Scroll },
   props: {
     list: {
       type: Array,
@@ -87,6 +109,10 @@ export default {
       return `shortcut-wrapper shortcut-${this.direction}`;
     },
   },
+  mounted() {
+    console.log(this.shortcutRef);
+    // this.shortcutRef.style.width = "400px";
+  },
   setup(props, { emit }) {
     const shortcutRef = ref(null);
     const { onTouchStart } = useShortcut(shortcutRef, props, emit);
@@ -102,22 +128,38 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.scroll {
+  width: 300px;
+}
 .shortcut-wrapper {
+  width: 1500px;
   &.shortcut-horizontal {
+    display: flex;
+    .item {
+      padding: 0 5px;
+      height: 100px;
+      min-width: 50px;
+      line-height: 100px;
+      color: $color-text-l;
+      font-size: $font-size-small;
+      &.current {
+        color: $color-theme;
+      }
+    }
   }
   &.shortcut-vertical {
     width: 20px;
     padding: 20px 0;
     border-radius: 10px;
     text-align: center;
-  }
-  .item {
-    padding: 3px;
-    line-height: 1;
-    color: $color-text-l;
-    font-size: $font-size-small;
-    &.current {
-      color: $color-theme;
+    .item {
+      padding: 3px;
+      line-height: 1;
+      color: $color-text-l;
+      font-size: $font-size-small;
+      &.current {
+        color: $color-theme;
+      }
     }
   }
 }

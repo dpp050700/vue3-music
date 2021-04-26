@@ -9,13 +9,17 @@ const getInitial = (name) => {
   return p[0][0].slice(0, 1).toUpperCase();
 };
 
+/**
+ * 获取热门歌手
+ * @returns
+ */
 export const getSingerTopList = async () => {
   let {
     list: { artists = [] },
   } = await get("/toplist/artist");
   const singerList = artists.map((item) => ({
     name: item.name,
-    picUrl: item.picUrl,
+    picUrl: item.picUrl + "?param=300x300",
     id: item.id,
     initial: getInitial(item.name),
   }));
@@ -48,8 +52,27 @@ export const getSingerTopList = async () => {
   });
 };
 
-export const getSingerList = async () => {
-  let { artists } = await get("/artist/list?type=1&area=96&initial=-1");
+/**
+ * 获取歌手列表
+ * type -1:全部 1:男歌手 2:女歌手 3:乐队
+ * area -1:全部 7华语 96欧美 8:日本 16韩国 0:其他
+ * initial: 按首字母索引查找参数,热门传-1
+ * @returns
+ */
+export const getSingerList = async ({
+  limit = 30,
+  offset = 0,
+  type = -1,
+  area = -1,
+  initial = "-1",
+}) => {
+  let { artists } = await get("/artist/list", {
+    limit,
+    offset,
+    type,
+    area,
+    initial,
+  });
   return artists;
 };
 

@@ -1,7 +1,7 @@
 <template>
   <ul class="singer-list-wrapper">
     <li class="singer-list-item" v-for="(item, index) in list" :key="index">
-      <img :src="item.picUrl" />
+      <img v-lazy="item.picUrl" />
       {{ item.name }}
     </li>
   </ul>

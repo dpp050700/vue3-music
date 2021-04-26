@@ -10,9 +10,12 @@ export default function useShortcut(shortcutRef, props, emit) {
     const startIndex = parseInt(e.target.dataset.index);
     touch.startY = e.touches[0].pageY;
     touch.startIndex = startIndex;
+    if (isNaN(startIndex)) {
+      return;
+    }
     if (probeType.includes(0)) {
-      emit("change", startIndex);
-      emit("update:currentIndex", startIndex);
+      emit("change", touch.startIndex);
+      emit("update:currentIndex", touch.startIndex);
     }
   };
 
@@ -22,6 +25,9 @@ export default function useShortcut(shortcutRef, props, emit) {
     touch.currentY = e.touches[0].pageY;
     const delta = ((touch.currentY - touch.startY) / ANCHOR_HEIGHT) | 0;
     touch.currentIndex = touch.startIndex + delta;
+    if (isNaN(touch.currentIndex)) {
+      return;
+    }
     emit("move", touch.currentIndex);
     emit("update:currentIndex", touch.currentIndex);
   };
@@ -32,6 +38,9 @@ export default function useShortcut(shortcutRef, props, emit) {
     touch.currentY = e.changedTouches[0].pageY;
     const delta = ((touch.currentY - touch.startY) / ANCHOR_HEIGHT) | 0;
     touch.currentIndex = touch.startIndex + delta;
+    if (isNaN(touch.currentIndex)) {
+      return;
+    }
     emit("change", touch.currentIndex);
     emit("update:currentIndex", touch.currentIndex);
   };
