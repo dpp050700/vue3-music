@@ -1,23 +1,15 @@
 <template>
   <div class="singer">
-    <scroll direction="horizontal" class="scroll">
-      <!-- <div class="test-wrap"> -->
-      <ul class="test">
-        <li class="test-item" v-for="item in 20" :key="item">{{ item }}</li>
-      </ul>
-      <!-- </div> -->
-    </scroll>
-    <shortcut direction="horizontal"></shortcut>
+    <horizon-shortcut direction="horizontal"></horizon-shortcut>
   </div>
 </template>
 
 <script>
-import Scroll from "@/components/base/scroll/scroll";
-import Shortcut from "@/components/base/shortcut/shortcut";
+import HorizonShortcut from "@/components/base/horizon-shortcut/horizon-shortcut";
 import { getSingerList } from "@/request/singers";
 export default {
   name: "Singer",
-  components: { Shortcut, Scroll },
+  components: { HorizonShortcut },
   data() {
     return {
       singerList: [],

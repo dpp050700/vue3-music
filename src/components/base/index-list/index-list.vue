@@ -13,8 +13,6 @@
     </ul>
     <shortcut
       @change="indexChange"
-      @move="indexChange"
-      :probe-type="[0, 2]"
       class="shortcut-content"
       :list="shortcutList"
       is-custom
