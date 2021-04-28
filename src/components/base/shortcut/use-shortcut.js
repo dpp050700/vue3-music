@@ -10,6 +10,7 @@ export default function useShortcut(shortcutRef, props, emit) {
       return;
     }
     emit("change", touch.startIndex);
+    emit("update:currentIndex", touch.startIndex);
   };
 
   const onTouchMove = (e) => {
@@ -20,6 +21,7 @@ export default function useShortcut(shortcutRef, props, emit) {
       return;
     }
     emit("change", touch.currentIndex);
+    emit("update:currentIndex", touch.currentIndex);
   };
 
   return {

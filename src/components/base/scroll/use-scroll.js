@@ -5,7 +5,7 @@ import { onMounted, ref } from "vue";
 BScroll.use(ObserveDOM);
 
 export default function useScroll(wrapperRef, options, emit) {
-  const { direction, otherOptions } = options;
+  const { direction, ...otherOptions } = options;
   const scroll = ref(null);
   onMounted(() => {
     scroll.value = new BScroll(wrapperRef.value, {

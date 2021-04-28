@@ -41,7 +41,6 @@ export default function useFixed(props) {
       distanceVal > 0 && distanceVal < TITLE_HEIGHT
         ? distanceVal - TITLE_HEIGHT
         : 0;
-    console.log(diff);
     return {
       transform: `translateY(${diff}px)`,
     };
@@ -60,7 +59,6 @@ export default function useFixed(props) {
   }
 
   function onScrollHandler(pos) {
-    console.log(pos);
     scrollY.value = -pos.y;
   }
   return {
