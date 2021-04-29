@@ -73,7 +73,11 @@ export const getSingerList = async ({
     area,
     initial,
   });
-  return artists;
+  return artists.map((item) => ({
+    name: item.name,
+    picUrl: item.picUrl + "?param=300x300",
+    id: item.id,
+  }));
 };
 
 export const getSingerTopDetail = async () => {

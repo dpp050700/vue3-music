@@ -6,7 +6,8 @@
         v-for="(item, index) in shortcutList"
         :key="item.name"
         :data-index="index"
-        @click="clickItem"
+        @click="clickItem(index, item)"
+        :class="{ current: currentIndex === index }"
       >
         {{ item.label }}
       </li>
@@ -16,7 +17,7 @@
 
 <script>
 export const defaultList = [
-  "#",
+  "热",
   "A",
   "B",
   "C",
@@ -66,20 +67,28 @@ export default {
   },
   emits: ["change"],
   methods: {
-    clickItem(index) {
-      this.$emit("change", index);
+    clickItem(index, item) {
+      this.$emit("change", index, item);
+      this.$emit("update:currentIndex", index);
     },
   },
   computed: {
     shortcutList() {
-      return this.isCustom ? this.list : defaultList;
+      return this.isCustom
+        ? this.list
+        : defaultList.map((item) => ({ label: item }));
     },
     wrapperClass() {
       return `shortcut-wrapper shortcut-${this.direction}`;
     },
   },
   mounted() {
-    this.shortcutRef.style.width = "1350px";
+    const list = this.shortcutRef.children;
+    let totalWidth = 0;
+    list.forEach((ele) => {
+      totalWidth += ele.offsetWidth;
+    });
+    this.shortcutRef.style.width = `${totalWidth}px`;
     this.scrollRef.scroll.refresh();
   },
   setup() {
@@ -97,13 +106,20 @@ export default {
 <style lang="scss" scoped>
 .horizon-shortcut {
   display: flex;
+  height: 30px;
+  padding: 3px 0;
+  box-sizing: border-box;
   .item {
     padding: 0 5px;
-    height: 16px;
-    color: $color-text-l;
+    height: 24px;
+    color: $color-text-d;
     font-size: $font-size-small;
+    flex: 0 0 auto;
+    line-height: 24px;
     &.current {
       color: $color-theme;
+      border: 1px solid $color-theme;
+      border-radius: 8px;
     }
   }
 }
