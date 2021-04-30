@@ -66,18 +66,21 @@ export const getSingerList = async ({
   area = -1,
   initial = "-1",
 }) => {
-  let { artists } = await get("/artist/list", {
+  let { artists = [], more } = await get("/artist/list", {
     limit,
     offset,
     type,
     area,
     initial,
   });
-  return artists.map((item) => ({
-    name: item.name,
-    picUrl: item.picUrl + "?param=300x300",
-    id: item.id,
-  }));
+  return {
+    lists: artists.map((item) => ({
+      name: item.name,
+      picUrl: item.picUrl + "?param=300x300",
+      id: item.id,
+    })),
+    more,
+  };
 };
 
 export const getSingerTopDetail = async () => {

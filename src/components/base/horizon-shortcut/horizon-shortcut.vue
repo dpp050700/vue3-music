@@ -4,7 +4,7 @@
       <li
         class="item"
         v-for="(item, index) in shortcutList"
-        :key="item.name"
+        :key="index"
         :data-index="index"
         @click="clickItem(index, item)"
         :class="{ current: currentIndex === index }"
@@ -68,15 +68,18 @@ export default {
   emits: ["change"],
   methods: {
     clickItem(index, item) {
-      this.$emit("change", index, item);
       this.$emit("update:currentIndex", index);
+      this.$emit("change", index, item);
     },
   },
   computed: {
     shortcutList() {
       return this.isCustom
         ? this.list
-        : defaultList.map((item) => ({ label: item }));
+        : defaultList.map((item) => ({
+            label: item,
+            key: item === "热" ? "-1" : item,
+          }));
     },
     wrapperClass() {
       return `shortcut-wrapper shortcut-${this.direction}`;

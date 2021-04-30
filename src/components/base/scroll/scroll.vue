@@ -22,6 +22,10 @@ export default {
       type: String,
       default: "vertical",
     },
+    pullUpDistance: {
+      type: Number,
+      default: 100,
+    },
   },
   data() {
     return {};

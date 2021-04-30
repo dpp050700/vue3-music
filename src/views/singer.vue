@@ -7,7 +7,7 @@
           <horizon-shortcut
             is-custom
             :list="cayegory"
-            @change="refeshSinger"
+            @change="changeCategory"
             v-model:currentIndex="categoryIndex"
           ></horizon-shortcut>
         </div>
@@ -23,8 +23,16 @@
       </div>
     </div>
     <div class="singer-list">
-      <scroll class="list-scroll" ref="scrollRef">
-        <singer-list :list="singerList"></singer-list>
+      <scroll
+        class="list-scroll"
+        ref="scrollRef"
+        :probe-type="3"
+        @pull-up="pullUp"
+      >
+        <div>
+          <singer-list :list="list"></singer-list>
+          <div class="no-more-bottom" v-if="isLast">已经到底啦～</div>
+        </div>
       </scroll>
     </div>
   </div>
@@ -36,12 +44,12 @@ import HorizonShortcut from "@/components/base/horizon-shortcut/horizon-shortcut
 import { getSingerList } from "@/request/singers";
 import Scroll from "@/components/base/scroll/scroll.vue";
 import SingerList from "../components/singer-list/singer-list.vue";
+import usePagination from "@/hooks/use-pagination.js";
 export default {
   name: "Singer",
   components: { HorizonShortcut, Scroll, SingerList },
   data() {
     return {
-      singerList: [],
       cayegory: [
         {
           label: "全部",
@@ -115,38 +123,49 @@ export default {
     };
   },
   async created() {
-    this.getList();
+    await this.initPage(this.params);
+  },
+  computed: {
+    params() {
+      const currentCategory = this.cayegory[this.categoryIndex];
+      return {
+        type: currentCategory.type,
+        area: currentCategory.area,
+        initial: this.initial,
+      };
+    },
   },
   methods: {
-    refeshSinger() {
-      this.getList();
+    changeCategory() {
+      this.initPage(this.params);
       this.scrollTop();
     },
     changeInitial(index, item) {
-      if (index === -1) {
-        this.initial = -1;
-      } else {
-        this.initial = item.label;
-      }
-      this.getList();
+      this.initial = item.key;
+      this.initPage(this.params);
       this.scrollTop();
     },
     scrollTop() {
       this.scrollRef.scroll.scrollTo(0, 0);
     },
-    async getList() {
-      const currentCategory = this.cayegory[this.categoryIndex];
-      this.singerList = await getSingerList({
-        type: currentCategory.type,
-        area: currentCategory.area,
-        initial: this.initial,
-      });
+    async pullUp() {
+      await this.nextPage(this.params);
     },
   },
-  setup() {
+  setup(props) {
     const scrollRef = ref(null);
+
+    const { initPage, nextPage, list, isLast } = usePagination(
+      props,
+      getSingerList,
+      scrollRef
+    );
     return {
       scrollRef,
+      initPage,
+      nextPage,
+      list,
+      isLast,
     };
   },
 };
@@ -185,6 +204,13 @@ export default {
       overflow: hidden;
       height: 100%;
     }
+  }
+  .no-more-bottom {
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    text-align: center;
+    color: $color-text-l;
   }
 }
 </style>

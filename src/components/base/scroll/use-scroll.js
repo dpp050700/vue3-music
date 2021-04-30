@@ -1,12 +1,30 @@
 import BScroll from "@better-scroll/core";
 import ObserveDOM from "@better-scroll/observe-dom";
 import { onMounted, ref } from "vue";
+import { debounce } from "@/utils/util";
 
 BScroll.use(ObserveDOM);
 
 export default function useScroll(wrapperRef, options, emit) {
-  const { direction, ...otherOptions } = options;
+  const { direction, pullUpDistance, ...otherOptions } = options;
   const scroll = ref(null);
+
+  const scrollEvent = function () {
+    scroll.value.on("scroll", (pos) => {
+      emit("scroll", pos);
+    });
+  };
+
+  const scrollEndEvent = function () {
+    const func = debounce((pos) => {
+      const distance = pos.y - scroll.value.maxScrollY;
+      if (distance <= pullUpDistance) {
+        emit("pull-up");
+      }
+    }, 500);
+    scroll.value.on("scrollEnd", func);
+  };
+
   onMounted(() => {
     scroll.value = new BScroll(wrapperRef.value, {
       observeDOM: true,
@@ -16,9 +34,8 @@ export default function useScroll(wrapperRef, options, emit) {
     });
 
     if (options.probeType > 0) {
-      scroll.value.on("scroll", (pos) => {
-        emit("scroll", pos);
-      });
+      scrollEvent();
+      scrollEndEvent();
     }
   });
   return scroll;
