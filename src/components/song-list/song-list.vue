@@ -1,13 +1,8 @@
 <template>
-  <ul class="singer-list-wrapper">
-    <li
-      class="singer-list-item"
-      v-for="(item, index) in list"
-      :key="index"
-      @click="clickItem(item)"
-    >
-      <img v-lazy="item.picUrl" />
-      {{ item.name }}
+  <ul class="song-list-wrapper">
+    <li class="song-list-item" v-for="(item, index) in list" :key="index">
+      <p>{{ item.name }}</p>
+      <p>{{ item.name }}</p>
     </li>
   </ul>
 </template>
@@ -20,21 +15,22 @@ export default {
       type: Array,
       default: () => [],
     },
+    isIndex: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {};
   },
-  methods: {
-    clickItem(item) {
-      this.$emit("click-item", item);
-    },
-  },
+  methods: {},
 };
 </script>
 
 <style lang="scss" scoped>
-.singer-list-wrapper {
-  .singer-list-item {
+.song-list-wrapper {
+  background: #fff;
+  .song-list-item {
     display: flex;
     align-items: center;
     padding-top: 20px;

@@ -89,3 +89,22 @@ export const getSingerTopDetail = async () => {
   } = await get("/toplist/artist");
   return artists.splice(0, 3);
 };
+
+export const getSingerSongs = async ({ id, limit, offset }) => {
+  let { songs, more } = await get(
+    `/artist/songs?id=${id}&limit=${limit}&offset=${offset}`
+  );
+  return { lists: songs, more };
+};
+
+export const getSingerDetail = async (id) => {
+  let { data } = await get(`/artist/detail?id=${id}`);
+  let res = {
+    videoCount: data.videoCount,
+    cover: data.artist.cover,
+    name: data.artist.name,
+    musicSize: data.artist.musicSize,
+    id: id,
+  };
+  return res;
+};

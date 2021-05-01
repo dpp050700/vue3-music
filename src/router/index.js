@@ -3,6 +3,8 @@ const Recommend = () =>
   import(/* webpackChunkName: "recommend" */ "@/views/recommend.vue");
 const Singer = () =>
   import(/* webpackChunkName: "singer" */ "@/views/singer.vue");
+const SingerDetail = () =>
+  import(/* webpackChunkName: "singer" */ "@/views/singer-detail.vue");
 const TopList = () =>
   import(/* webpackChunkName: "hot-list" */ "@/views/top-list.vue");
 const SingerTopList = () =>
@@ -21,7 +23,15 @@ const routes = [
     path: "/singer",
     name: "Singer",
     component: Singer,
+    children: [
+      {
+        path: ":id",
+        name: "SingerDetail",
+        component: SingerDetail,
+      },
+    ],
   },
+
   {
     path: "/top-list",
     name: "TopList",

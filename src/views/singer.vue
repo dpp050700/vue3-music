@@ -30,12 +30,13 @@
         @pull-up="pullUp"
       >
         <div>
-          <singer-list :list="list"></singer-list>
+          <singer-list :list="list" @click-item="clickItem"></singer-list>
           <div class="no-more-bottom" v-if="isLast">已经到底啦～</div>
         </div>
       </scroll>
     </div>
   </div>
+  <router-view></router-view>
 </template>
 
 <script>
@@ -150,6 +151,9 @@ export default {
     },
     async pullUp() {
       await this.nextPage(this.params);
+    },
+    clickItem(item) {
+      this.$router.push(`/singer/${item.id}`);
     },
   },
   setup(props) {
