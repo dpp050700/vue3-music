@@ -6,7 +6,7 @@
         <h1>{{ detail.name }}</h1>
       </div>
       <div class="bg-img" :style="bgImage" ref="bgImage">
-        <div class="filter"></div>
+        <div class="filter" :style="filterStyle"></div>
       </div>
       <scroll
         class="list"
@@ -69,6 +69,18 @@ export default {
         paddingTop,
         backgroundImage: `url("${this.detail.cover}")`,
         transform: `scale(${scale})translateZ(0px)`,
+      };
+    },
+    filterStyle() {
+      let blur = 0;
+      const { scrollY, imageHeight } = this;
+      if (scrollY <= 0) {
+        blur =
+          Math.min(this.maxTranslateY / imageHeight, -scrollY / imageHeight) *
+          20;
+      }
+      return {
+        backdropFilter: `blur(${blur}px)`,
       };
     },
     scrollStyle() {

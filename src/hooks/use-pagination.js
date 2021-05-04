@@ -21,7 +21,9 @@ export default function usePagination(props, getListFunc, scrollRef) {
       let params = Object.assign({}, pageParams.value, data);
       let { lists, more } = await getListFunc(params);
       isLast.value = !more;
-      isClear ? (list.value = lists) : list.value.push(...lists);
+      isClear
+        ? (list.value = getIndex(lists))
+        : list.value.push(...getIndex(lists));
       await nextTick();
       scrollRef.value.scroll.refresh();
       lock.value = false;
@@ -43,6 +45,15 @@ export default function usePagination(props, getListFunc, scrollRef) {
     lock.value = true;
     page.value.current += 1;
     ajaxRequest(data);
+  };
+
+  const getIndex = (list) => {
+    return list.map((item, index) => {
+      return {
+        ...item,
+        indexNumber: page.value.current * page.value.size + index + 1,
+      };
+    });
   };
 
   return {

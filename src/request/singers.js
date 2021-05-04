@@ -1,5 +1,6 @@
 import { get } from "./axios";
 import pinyin from "pinyin";
+import { getSingers } from "@/utils/help";
 
 const getInitial = (name) => {
   const p = pinyin(name, { style: pinyin.STYLE_NORMAL });
@@ -90,11 +91,28 @@ export const getSingerTopDetail = async () => {
   return artists.splice(0, 3);
 };
 
+/**
+ * 获取歌手歌曲列表
+ * @param {*} param0
+ * @returns
+ */
 export const getSingerSongs = async ({ id, limit, offset }) => {
-  let { songs, more } = await get(
+  let { songs = [], more } = await get(
     `/artist/songs?id=${id}&limit=${limit}&offset=${offset}`
   );
-  return { lists: songs, more };
+
+  const lists = songs.map((item) => {
+    return {
+      name: item.name,
+      singers: getSingers(item.ar),
+      album: item.al.name,
+    };
+  });
+
+  return {
+    lists,
+    more,
+  };
 };
 
 export const getSingerDetail = async (id) => {
