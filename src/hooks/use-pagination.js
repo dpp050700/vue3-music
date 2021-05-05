@@ -1,5 +1,5 @@
 import { ref, computed, nextTick } from "vue";
-export default function usePagination(props, getListFunc, scrollRef) {
+export default function usePagination(props, getListFunc) {
   const page = ref({
     size: 50,
     current: 0,
@@ -25,7 +25,6 @@ export default function usePagination(props, getListFunc, scrollRef) {
         ? (list.value = getIndex(lists))
         : list.value.push(...getIndex(lists));
       await nextTick();
-      scrollRef.value.scroll.refresh();
       lock.value = false;
     } catch (error) {
       await nextTick();
@@ -62,5 +61,6 @@ export default function usePagination(props, getListFunc, scrollRef) {
     nextPage,
     initPage,
     isLast,
+    lock,
   };
 }

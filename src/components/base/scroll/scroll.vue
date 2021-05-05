@@ -30,7 +30,7 @@ export default {
   data() {
     return {};
   },
-  emits: ["scroll"],
+  emits: ["scroll", "pull-up"],
   setup(props, { emit }) {
     const scrollWrapper = ref(null);
     const scroll = useScroll(scrollWrapper, props, emit);

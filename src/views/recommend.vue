@@ -8,7 +8,12 @@
         <div class="recommend-item">
           <h1 class="recommend-item_title">热门歌单</h1>
           <ul class="recommend-item_list">
-            <li class="list-item" v-for="item in hotList" :key="item.id">
+            <li
+              class="list-item"
+              v-for="item in hotList"
+              :key="item.id"
+              @click="clickItem(item)"
+            >
               <count-tag
                 icon="headset"
                 :count="item.playCountText"
@@ -22,6 +27,7 @@
       </div>
     </scroll>
   </div>
+  <router-view></router-view>
 </template>
 
 <script>
@@ -45,6 +51,11 @@ export default {
   async created() {
     this.sliders = await getBanner();
     this.hotList = await getHotRecommend();
+  },
+  methods: {
+    clickItem({ id }) {
+      this.$router.push(`/recommend/${id}`);
+    },
   },
 };
 </script>

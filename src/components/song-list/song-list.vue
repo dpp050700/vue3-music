@@ -1,7 +1,7 @@
 <template>
   <ul class="song-list-wrapper">
-    <li class="song-list-item" v-for="item in list" :key="item.indexNumber">
-      <span class="song-index">{{ item.indexNumber }}</span>
+    <li class="song-list-item" v-for="(item, index) in list" :key="index">
+      <span class="song-index">{{ index + 1 }}</span>
       <div class="song-detail">
         <p class="song-name">{{ item.name }}</p>
         <div class="song-singer">
@@ -61,19 +61,13 @@ export default {
       .song-singer {
         font-size: 12px;
         color: $color-text-l;
-        display: flex;
-        .singer-album {
-          flex: 1;
-          @include no-wrap;
-        }
+        @include no-wrap;
       }
     }
-    img {
-      width: 42px;
-      height: 42px;
-      display: block;
-      border-radius: 50%;
-      margin-right: 20px;
+    &:last-child {
+      .song-detail {
+        border-bottom: none;
+      }
     }
   }
 }
