@@ -6,19 +6,18 @@
     <div class="top-item-list_content">
       <ul class="top-item-list_content-info" v-if="type === 1">
         <li v-for="(item, index) in list" :key="index">
-          <span>1</span>
+          <span>{{ index + 1 }}. </span>
           <span>{{ item.name }}</span>
         </li>
       </ul>
       <ul class="top-item-list_content-info" v-else>
         <li v-for="(item, index) in list" :key="index">
-          <span>1</span>
+          <span>{{ index + 1 }}. </span>
           <span>{{ item.first }}</span>
           -
           <span>{{ item.second }}</span>
         </li>
       </ul>
-      <div class="top-item-list_content-more">查看全部</div>
     </div>
   </div>
 </template>
@@ -33,7 +32,7 @@ export default {
       default: () => [],
     },
     id: String,
-    type: Number,
+    type: Number, // 1 歌手榜
   },
   components: {},
 };
@@ -41,9 +40,11 @@ export default {
 <style lang="scss" scoped>
 .top-item-list {
   display: flex;
+  padding: 5px 0;
+  border-bottom: 1px solid rgb(228, 228, 228);
   .top-item-list_cover {
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     img {
       display: block;
       width: 100%;
@@ -51,13 +52,17 @@ export default {
   }
   .top-item-list_content {
     flex: 1;
+    padding: 10px;
   }
   .top-item-list_content-info {
-    height: 130px;
-  }
-  .top-item-list_content-more {
-    height: 20px;
-    line-height: 20px;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    font-size: 12px;
+    color: $color-text-l;
+    line-height: 1.2;
+    // height: 130px;
   }
 }
 </style>

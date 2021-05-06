@@ -7,10 +7,12 @@ const Singer = () =>
   import(/* webpackChunkName: "singer" */ "@/views/singer.vue");
 const SingerDetail = () =>
   import(/* webpackChunkName: "singer" */ "@/views/singer-detail.vue");
-const TopList = () =>
-  import(/* webpackChunkName: "hot-list" */ "@/views/top-list.vue");
-const SingerTopList = () =>
-  import(/* webpackChunkName: "hot-list" */ "@/views/singer-top-list.vue");
+const Rank = () =>
+  import(/* webpackChunkName: "hot-list" */ "@/views/rank.vue");
+const RankDetail = () =>
+  import(/* webpackChunkName: "recommend" */ "@/views/album-detail.vue");
+const SingerIndexList = () =>
+  import(/* webpackChunkName: "hot-list" */ "@/views/singer-index-list.vue");
 const routes = [
   {
     path: "/",
@@ -42,14 +44,21 @@ const routes = [
   },
 
   {
-    path: "/top-list",
-    name: "TopList",
-    component: TopList,
-  },
-  {
-    path: "/singer-top-list",
-    name: "SingerTopList",
-    component: SingerTopList,
+    path: "/rank",
+    name: "Rank",
+    component: Rank,
+    children: [
+      {
+        path: ":id",
+        name: "RankDetail",
+        component: RankDetail,
+      },
+      {
+        path: "singer-index-list",
+        name: "SingerIndexList",
+        component: SingerIndexList,
+      },
+    ],
   },
 ];
 

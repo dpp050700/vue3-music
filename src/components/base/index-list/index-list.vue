@@ -4,6 +4,7 @@
     @scroll="onScrollHandler"
     :probe-type="3"
     ref="scrollRef"
+    :bounce-top="false"
   >
     <ul class="index-list-wrapper" ref="groupRef">
       <li v-for="group in list" :key="group.initial" class="index-list-group">

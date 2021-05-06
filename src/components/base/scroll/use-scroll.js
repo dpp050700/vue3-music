@@ -6,7 +6,13 @@ import { debounce } from "@/utils/util";
 BScroll.use(ObserveDOM);
 
 export default function useScroll(wrapperRef, options, emit) {
-  const { direction, pullUpDistance, ...otherOptions } = options;
+  const {
+    direction,
+    pullUpDistance,
+    bounceTop,
+    bounceBottom,
+    ...otherOptions
+  } = options;
   const scroll = ref(null);
 
   const scrollEvent = function () {
@@ -30,6 +36,10 @@ export default function useScroll(wrapperRef, options, emit) {
       observeDOM: true,
       scrollX: direction === "horizontal",
       scrollY: direction === "vertical",
+      bounce: {
+        top: bounceTop,
+        bottom: bounceBottom,
+      },
       ...otherOptions,
     });
 

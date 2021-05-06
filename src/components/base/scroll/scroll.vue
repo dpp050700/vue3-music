@@ -26,6 +26,14 @@ export default {
       type: Number,
       default: 100,
     },
+    bounceTop: {
+      type: Boolean,
+      default: true,
+    },
+    bounceBottom: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {};

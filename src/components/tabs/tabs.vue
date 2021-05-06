@@ -25,7 +25,7 @@ const tabs = [
   },
   {
     name: "榜单",
-    path: "/top-list",
+    path: "/rank",
   },
 ];
 export default {
