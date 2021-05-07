@@ -1,5 +1,5 @@
 <template>
-  <div class="recommend">
+  <div class="recommend" v-loading:[loadingConfig]="loading">
     <scroll class="recommend-content">
       <div>
         <div class="slider-container">
@@ -46,11 +46,18 @@ export default {
     return {
       sliders: [],
       hotList: [],
+      loading: true,
+      loadingConfig: {
+        position: "top",
+        title: "玩命加载中...",
+        translateY: 20,
+      },
     };
   },
   async created() {
     this.sliders = await getBanner();
     this.hotList = await getHotRecommend();
+    this.loading = false;
   },
   methods: {
     clickItem({ id }) {
