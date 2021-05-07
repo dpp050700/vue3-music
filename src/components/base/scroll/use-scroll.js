@@ -1,7 +1,7 @@
 import BScroll from "@better-scroll/core";
 import ObserveDOM from "@better-scroll/observe-dom";
 import { onMounted, ref } from "vue";
-import { debounce } from "@/utils/util";
+import { debounce } from "@/common/utils/util";
 
 BScroll.use(ObserveDOM);
 

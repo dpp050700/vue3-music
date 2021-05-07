@@ -1,5 +1,5 @@
 import { get } from "./axios";
-import { getSingers } from "@/utils/help";
+import { getSingers } from "@/common/utils/help";
 
 export const getSongDetail = async (ids) => {
   let res = await get(`/song/detail?ids=${ids.join(",")}`);

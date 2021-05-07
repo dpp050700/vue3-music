@@ -1,6 +1,6 @@
 import { get } from "./axios";
 import pinyin from "pinyin";
-import { getSingers } from "@/utils/help";
+import { getSingers } from "@/common/utils/help";
 
 const getInitial = (name) => {
   const p = pinyin(name, { style: pinyin.STYLE_NORMAL });
