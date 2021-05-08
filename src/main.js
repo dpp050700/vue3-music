@@ -5,6 +5,7 @@ import store from "./store";
 import lazyPlugin from "vue3-lazy";
 import "./assets/scss/index.scss";
 import loadingDirective from "@/components/base/loading/directive";
+import emptyDirective from "@/components/base/empty/directive";
 // import Vconsole from "vconsole";
 // new Vconsole();
 
@@ -13,4 +14,5 @@ createApp(App)
   .use(router)
   .use(lazyPlugin, { loading: require("@/assets/images/singerTop.png") })
   .directive("loading", loadingDirective)
+  .directive("empty", emptyDirective)
   .mount("#app");

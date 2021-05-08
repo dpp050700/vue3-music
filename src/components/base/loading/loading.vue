@@ -123,9 +123,12 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 12px;
       .loading-image {
         margin-bottom: 0;
         margin-left: 6px;
+        display: block;
+        width: 14px;
       }
     }
   }
