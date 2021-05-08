@@ -8,6 +8,7 @@
         <li></li>
         <li></li>
       </ul>
+      <img class="loading-image" v-else :src="image" />
       {{ title }}
     </div>
   </div>
@@ -39,8 +40,9 @@ export default {
       };
     },
     loadingContent() {
+      let translateY = this.position === "bottom" ? 0 : this.translateY;
       return {
-        transform: `translateY(${this.translateY}px)`,
+        transform: `translateY(${translateY}px)`,
       };
     },
   },
@@ -62,14 +64,51 @@ export default {
   }
 }
 .loading {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  background: #fff;
+  &:not(.loading-bottom) {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    background: #fff;
+    .loading-content {
+      font-size: 12px;
+      .loading-line {
+        height: 15px;
+        width: 100%;
+        margin-bottom: 8px;
+        text-align: center;
+        & > li {
+          display: inline-block;
+          background-color: $color-background-theme;
+          height: 100%;
+          width: 1px;
+          margin-right: 2px;
+          animation: dance 1s infinite;
+        }
+        & > li:nth-child(2) {
+          animation-delay: -0.4s;
+        }
+        & > li:nth-child(3) {
+          animation-delay: -0.6s;
+        }
+        & > li:nth-child(4) {
+          animation-delay: -0.5s;
+        }
+        & > li:nth-child(5) {
+          animation-delay: -0.2s;
+        }
+      }
+      .loading-image {
+        margin: auto;
+        display: block;
+        margin-bottom: 8px;
+        width: 14px;
+      }
+    }
+  }
   &.loading-top {
     align-items: flex-start;
   }
@@ -77,35 +116,16 @@ export default {
     align-items: center;
   }
   &.loading-bottom {
-    align-items: flex-end;
-  }
-  .loading-content {
-    font-size: 12px;
-    // transform: translateY(10px);
-    .loading-line {
-      height: 15px;
-      width: 100%;
-      margin-bottom: 8px;
-      text-align: center;
-      & > li {
-        display: inline-block;
-        background-color: $color-background-theme;
-        height: 100%;
-        width: 1px;
-        margin-right: 2px;
-        animation: dance 1s infinite;
-      }
-      & > li:nth-child(2) {
-        animation-delay: -0.4s;
-      }
-      & > li:nth-child(3) {
-        animation-delay: -0.6s;
-      }
-      & > li:nth-child(4) {
-        animation-delay: -0.5s;
-      }
-      & > li:nth-child(5) {
-        animation-delay: -0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .loading-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .loading-image {
+        margin-bottom: 0;
+        margin-left: 6px;
       }
     }
   }
