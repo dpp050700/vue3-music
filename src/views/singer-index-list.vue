@@ -4,7 +4,7 @@
       <i class="music-icon-back" @click="goBack"></i>
       <h1>歌手榜</h1>
     </div>
-    <div class="list-wrap">
+    <div class="list-wrap" v-loading:[loadingConfig]="!singerList.length">
       <index-list :list="singerList"></index-list>
     </div>
   </div>
@@ -21,6 +21,7 @@ export default {
   data() {
     return {
       singerList: [],
+      loadingConfig: { position: "center" },
     };
   },
   async created() {

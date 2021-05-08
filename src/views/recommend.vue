@@ -35,7 +35,6 @@ import { getBanner, getHotRecommend } from "@/request/recommend";
 import Slider from "@/components/base/slider/slider";
 import CountTag from "@/components/base/countTag/countTag";
 import Scroll from "@/components/base/scroll/scroll";
-import LoadingImg from "@/assets/images/loading.gif";
 export default {
   name: "Recommend",
   components: {
@@ -49,13 +48,10 @@ export default {
       hotList: [],
       loading: true,
       loadingConfig: {
-        position: "center",
+        position: "top",
         title: "玩命加载中...",
         translateY: 10,
-        image: LoadingImg,
-        customIcon: true,
       },
-      empty: true,
     };
   },
   async created() {

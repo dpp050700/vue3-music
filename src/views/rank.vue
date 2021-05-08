@@ -1,5 +1,5 @@
 <template>
-  <div class="top-list-wrap">
+  <div class="top-list-wrap" v-loading:[loadingConfig]="loading">
     <scroll class="top-list-scroll">
       <div>
         <h1 class="top-list-title">官方榜</h1>
@@ -43,6 +43,7 @@ import { getTopList } from "@/request/toplist";
 import { getSingerTopDetail } from "@/request/singers";
 import TopItemList from "@/components/top-item-list/top-item-list.vue";
 import singerTopCover from "@/assets/images/singerTop.png";
+import LoadingImg from "@/assets/images/loading.gif";
 export default {
   name: "TopList",
   components: {
@@ -55,6 +56,13 @@ export default {
       globalList: [],
       artistToplist: {},
       singerTopCover,
+      loading: true,
+      loadingConfig: {
+        position: "center",
+        title: "正在加载...",
+        image: LoadingImg,
+        customIcon: true,
+      },
     };
   },
   async created() {
@@ -63,6 +71,7 @@ export default {
     this.officialList = officialList;
     this.globalList = globalList;
     this.artistToplist = artistToplist;
+    this.loading = false;
   },
   methods: {
     toSingerIndex() {

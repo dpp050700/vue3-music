@@ -23,7 +23,7 @@ export default {
       image: "",
       customIcon: false,
       position: "", // top center bottom
-      translateY: 10,
+      translateY: 0,
     };
   },
   methods: {
@@ -74,32 +74,8 @@ export default {
     justify-content: center;
     background: #fff;
     .loading-content {
-      font-size: 12px;
       .loading-line {
-        height: 15px;
-        width: 100%;
         margin-bottom: 8px;
-        text-align: center;
-        & > li {
-          display: inline-block;
-          background-color: $color-background-theme;
-          height: 100%;
-          width: 1px;
-          margin-right: 2px;
-          animation: dance 1s infinite;
-        }
-        & > li:nth-child(2) {
-          animation-delay: -0.4s;
-        }
-        & > li:nth-child(3) {
-          animation-delay: -0.6s;
-        }
-        & > li:nth-child(4) {
-          animation-delay: -0.5s;
-        }
-        & > li:nth-child(5) {
-          animation-delay: -0.2s;
-        }
       }
       .loading-image {
         margin: auto;
@@ -116,19 +92,46 @@ export default {
     align-items: center;
   }
   &.loading-bottom {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     .loading-content {
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 12px;
+      .loading-line {
+        margin-right: 6px;
+      }
       .loading-image {
         margin-bottom: 0;
-        margin-left: 6px;
+        margin-right: 6px;
         display: block;
         width: 14px;
+      }
+    }
+  }
+  .loading-content {
+    font-size: 12px;
+    .loading-line {
+      height: 15px;
+      text-align: center;
+      & > li {
+        display: inline-block;
+        background-color: $color-background-theme;
+        height: 100%;
+        width: 1px;
+        margin-right: 2px;
+        animation: dance 1s infinite;
+      }
+      & > li:nth-child(2) {
+        animation-delay: -0.4s;
+      }
+      & > li:nth-child(3) {
+        animation-delay: -0.6s;
+      }
+      & > li:nth-child(4) {
+        animation-delay: -0.5s;
+      }
+      & > li:nth-child(5) {
+        animation-delay: -0.2s;
       }
     }
   }

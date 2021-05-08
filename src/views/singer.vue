@@ -22,14 +22,14 @@
         </div>
       </div>
     </div>
-    <div class="singer-list">
+    <div class="singer-list" v-loading="list.length === 0">
       <scroll
         class="list-scroll"
         ref="scrollRef"
         :probe-type="3"
         @pull-up="pullUp"
       >
-        <div>
+        <div v-loading:[bottomLoadingConfig]="!isLast && list.length">
           <singer-list :list="list" @click-item="clickItem"></singer-list>
           <div class="no-more-bottom" v-if="isLast">已经到底啦～</div>
         </div>
@@ -121,6 +121,10 @@ export default {
       categoryIndex: 0,
       initialIndex: 0,
       initial: -1,
+      bottomLoadingConfig: {
+        position: "bottom",
+      },
+      bottomLoading: true,
     };
   },
   async created() {
