@@ -1,5 +1,6 @@
 import { PLAY_MODE } from "@/common/config/index";
 import * as mutationsType from "./mutation-type";
+import { shuffle } from "@/common/utils/help";
 export default {
   namespaced: true,
   state: {
@@ -25,8 +26,28 @@ export default {
     [mutationsType.SET_FULL_SCREEN](state, isFull) {
       state.fullScreen = isFull;
     },
+    [mutationsType.SET_PLAYING_STATE](state, playingState) {
+      state.playingState = playingState;
+    },
   },
-  actions: {},
+  actions: {
+    selectPlay({ commit }, { list, index }) {
+      commit(mutationsType.SET_PLAYER_MODE, PLAY_MODE.sequence);
+      commit(mutationsType.SET_FULL_SCREEN, true);
+      commit(mutationsType.SET_SEQUENCE_LIST, list);
+      commit(mutationsType.SET_PLAY_LIST, list);
+      commit(mutationsType.SET_PLAYING_STATE, true);
+      commit(mutationsType.SET_CURRENT_INDEX, index);
+    },
+    randomPlay({ commit }, list) {
+      commit(mutationsType.SET_PLAYER_MODE, PLAY_MODE.random);
+      commit(mutationsType.SET_FULL_SCREEN, true);
+      commit(mutationsType.SET_SEQUENCE_LIST, list);
+      commit(mutationsType.SET_PLAY_LIST, shuffle(list));
+      commit(mutationsType.SET_PLAYING_STATE, true);
+      commit(mutationsType.SET_CURRENT_INDEX, 0);
+    },
+  },
   getters: {
     mode: (state) => state.mode,
     sequenceList: (state) => state.sequenceList,

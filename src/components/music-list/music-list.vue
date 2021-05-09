@@ -22,7 +22,11 @@
         @pull-up="onPullUp"
         @scroll="onScrollHandler"
       >
-        <song-list :list="list"></song-list>
+        <song-list
+          :list="list"
+          @select="selectItem"
+          @play-all="playAll"
+        ></song-list>
       </scroll>
     </div>
   </div>
@@ -32,6 +36,7 @@
 import { nextTick, ref } from "vue";
 import Scroll from "@/components/base/scroll/scroll.vue";
 import SongList from "@/components/song-list/song-list.vue";
+import { mapActions } from "vuex";
 
 const RESERVED_HEIGHT = 40;
 export default {
@@ -139,6 +144,16 @@ export default {
     goBack() {
       this.$router.back();
     },
+    playAll() {
+      this.randomPlay(this.list);
+    },
+    selectItem({ index }) {
+      this.selectPlay({ list: this.list, index });
+    },
+    ...mapActions("player", {
+      selectPlay: "selectPlay",
+      randomPlay: "randomPlay",
+    }),
   },
   setup() {
     const scrollRef = ref(null);
