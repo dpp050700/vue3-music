@@ -6,6 +6,12 @@
         <h1>{{ name }}</h1>
       </div>
       <div class="bg-img" :style="bgImage" ref="bgImage">
+        <div class="collect-wrapper" :style="collectBtnStyle">
+          <div class="collect-btn">
+            <i class="collect-icon music-icon-circle-plus-outline"></i>
+            <span class="collect-text">收藏</span>
+          </div>
+        </div>
         <div class="filter" :style="filterStyle"></div>
       </div>
       <scroll
@@ -100,6 +106,15 @@ export default {
         bottom: 0,
       };
     },
+    collectBtnStyle() {
+      let display = "";
+      if (-this.scrollY > this.maxTranslateY) {
+        display = "none";
+      }
+      return {
+        display,
+      };
+    },
   },
   mounted() {
     this.imageHeight = this.$refs.bgImage.clientHeight;
@@ -159,6 +174,33 @@ export default {
       width: 100%;
       height: 100%;
       background: rgba(7, 17, 27, 0.4);
+    }
+    .collect-wrapper {
+      position: absolute;
+      bottom: 20px;
+      z-index: 10;
+      width: 100%;
+      .collect-btn {
+        box-sizing: border-box;
+        width: 120px;
+        padding: 10px 0;
+        margin: 0 auto;
+        text-align: center;
+        border-radius: 100px;
+        font-size: 14px;
+        background-color: $color-background-theme;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .collect-icon {
+          color: #fff;
+          margin-right: 4px;
+          font-size: 14px;
+        }
+        .collect-text {
+          color: #fff;
+        }
+      }
     }
   }
   .list {

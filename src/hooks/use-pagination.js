@@ -32,18 +32,18 @@ export default function usePagination(props, getListFunc) {
     }
   };
 
-  const initPage = (data) => {
+  const initPage = async (data) => {
     page.value = {
       current: 0,
       size: 50,
     };
-    ajaxRequest(data, { isClear: true });
+    await ajaxRequest(data, { isClear: true });
   };
-  const nextPage = (data) => {
+  const nextPage = async (data) => {
     if (lock.value || isLast.value) return;
     lock.value = true;
     page.value.current += 1;
-    ajaxRequest(data);
+    await ajaxRequest(data);
   };
 
   const getIndex = (list) => {

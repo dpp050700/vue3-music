@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div class="singer-list" v-loading="list.length === 0">
+    <div class="singer-list" v-loading="loading">
       <scroll
         class="list-scroll"
         ref="scrollRef"
@@ -125,10 +125,12 @@ export default {
         position: "bottom",
       },
       bottomLoading: true,
+      loading: true,
     };
   },
   async created() {
     await this.initPage(this.params);
+    this.loading = false;
   },
   computed: {
     params() {
@@ -141,14 +143,18 @@ export default {
     },
   },
   methods: {
-    changeCategory() {
-      this.initPage(this.params);
+    async changeCategory() {
+      this.loading = true;
+      await this.initPage(this.params);
       this.scrollTop();
+      this.loading = false;
     },
-    changeInitial(index, item) {
+    async changeInitial(index, item) {
+      this.loading = true;
       this.initial = item.key;
-      this.initPage(this.params);
+      await this.initPage(this.params);
       this.scrollTop();
+      this.loading = false;
     },
     scrollTop() {
       this.scrollRef.scroll.scrollTo(0, 0);
