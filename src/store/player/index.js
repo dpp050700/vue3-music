@@ -54,5 +54,6 @@ export default {
     playList: (state) => state.playList,
     fullScreen: (state) => state.fullScreen,
     currentIndex: (state) => state.currentIndex,
+    currentSong: (state) => state.playList[state.currentIndex] || {},
   },
 };

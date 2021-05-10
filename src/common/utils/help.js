@@ -20,3 +20,8 @@ const swap = (arr, i, j) => {
   arr[i] = arr[j];
   arr[j] = item;
 };
+
+export const getStoreGetter = (store, name, module) => {
+  const key = module ? `${module}/${name}` : name;
+  return store.getters[key];
+};

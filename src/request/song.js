@@ -8,7 +8,7 @@ export const getSongDetail = async (ids) => {
       return {
         name: item.name,
         singers: getSingers(item.ar),
-        album: item.al.name,
+        album: item.al,
       };
     }),
   };

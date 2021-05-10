@@ -14,7 +14,7 @@
         <div class="song-detail">
           <p class="song-name">{{ item.name }}</p>
           <div class="song-singer">
-            {{ item.singers + " " }} - {{ " " + item.album }}
+            {{ item.singers + " " }} - {{ " " + item.album.name }}
           </div>
         </div>
       </li>

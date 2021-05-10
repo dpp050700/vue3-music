@@ -105,7 +105,7 @@ export const getSingerSongs = async ({ id, limit, offset }) => {
     return {
       name: item.name,
       singers: getSingers(item.ar),
-      album: item.al.name,
+      album: item.al,
     };
   });
 
