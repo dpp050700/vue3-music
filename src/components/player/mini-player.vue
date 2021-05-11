@@ -13,7 +13,7 @@
     </div>
     <div class="control">
       <progress-circle :radius="32" :progress="progress">
-        <i class="play-statu-icon music-icon-video-pause"></i>
+        <i class="play-statu-icon" :class="playIcon"></i>
       </progress-circle>
     </div>
     <div class="control">
@@ -24,8 +24,6 @@
 
 <script>
 import ProgressCircle from "./progress-circle";
-// import { useStore } from "vuex";
-// import { getStoreGetter } from "@/common/utils/help.js";
 import usePlayer from "./use-player";
 export default {
   name: "",
@@ -51,14 +49,15 @@ export default {
       playList,
       sequenceList,
       playMode,
+      playIcon,
     } = usePlayer();
-    console.log(currentSong);
     return {
       isFull,
       currentSong,
       playList,
       playMode,
       sequenceList,
+      playIcon,
     };
   },
 };

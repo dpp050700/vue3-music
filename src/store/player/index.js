@@ -9,6 +9,7 @@ export default {
     playList: [],
     currentIndex: 0,
     fullScreen: false,
+    playing: false,
   },
   mutations: {
     [mutationsType.SET_PLAYER_MODE](state, mode) {
@@ -27,7 +28,7 @@ export default {
       state.fullScreen = isFull;
     },
     [mutationsType.SET_PLAYING_STATE](state, playingState) {
-      state.playingState = playingState;
+      state.playing = playingState;
     },
   },
   actions: {
@@ -50,6 +51,7 @@ export default {
   },
   getters: {
     mode: (state) => state.mode,
+    playing: (state) => state.playing,
     sequenceList: (state) => state.sequenceList,
     playList: (state) => state.playList,
     fullScreen: (state) => state.fullScreen,
