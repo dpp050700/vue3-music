@@ -5,7 +5,14 @@
         <img :src="currentSong.album?.picUrl" />
       </div>
       <div class="top">
-        <div class="back">
+        <div
+          class="back"
+          @click="
+            () => {
+              toggleFullScreen(false);
+            }
+          "
+        >
           <i class="icon-back"></i>
         </div>
         <div class="name">{{ currentSong.name }}</div>
@@ -18,11 +25,11 @@
           <div class="dot"></div>
         </div>
         <div class="progress-wrapper">
-          <span class="time time-left"></span>
+          <span class="time time-left">00:00</span>
           <span class="progress-bar-wrapper">
             <progress-bar></progress-bar>
           </span>
-          <span class="time time-right"></span>
+          <span class="time time-right">04:28</span>
         </div>
         <div class="operate-wrapper">
           <div class="icon">
@@ -32,7 +39,14 @@
             <i class="icon-prev" @click="prev"></i>
           </div>
           <div class="icon">
-            <i :class="playIcon" @click="togglePlay"></i>
+            <i
+              :class="playIcon"
+              @click="
+                () => {
+                  togglePlay();
+                }
+              "
+            ></i>
           </div>
           <div class="icon">
             <i class="icon-next" @click="next"></i>
@@ -44,7 +58,7 @@
       </div>
     </div>
     <mini-player :progress="progress"></mini-player>
-    <audio ref="audioRef"></audio>
+    <audio ref="audioRef" @canplay="ready" @error="error"></audio>
   </div>
 </template>
 
@@ -53,6 +67,7 @@ import usePlayer from "./use-player";
 import MiniPlayer from "./mini-player";
 import ProgressBar from "./progress-bar";
 import { ref, watch } from "vue";
+import { getSongUrl } from "@/common/utils/help.js";
 export default {
   name: "",
   components: {
@@ -73,26 +88,59 @@ export default {
       isFull,
       currentSong,
       playIcon,
+      playing,
       togglePlay,
       next,
       prev,
-    } = usePlayer(audioRef);
+      toggleFullScreen,
+    } = usePlayer(audioRef, songReady);
 
     watch(currentSong, (newSong) => {
+      if (!newSong.id) {
+        return;
+      }
+      songReady.value = false;
       const audioEl = audioRef.value;
-      audioEl.src = newSong.url;
+      audioEl.src = getSongUrl(newSong.id);
       audioEl.play();
       togglePlay(true);
     });
 
+    watch(playing, (newPlaying) => {
+      if (!songReady.value) {
+        return;
+      }
+      const audioEl = audioRef.value;
+      if (newPlaying) {
+        audioEl.play();
+      } else {
+        audioEl.pause();
+      }
+    });
+
+    function ready() {
+      if (songReady.value) {
+        return;
+      }
+      songReady.value = true;
+    }
+
+    function error() {
+      songReady.value = true;
+    }
+
     return {
+      audioRef,
       playList,
       isFull,
       currentSong,
       playIcon,
       togglePlay,
+      toggleFullScreen,
       next,
       prev,
+      ready,
+      error,
     };
   },
 };
@@ -106,7 +154,7 @@ export default {
     top: 0;
     right: 0;
     bottom: 0;
-    background: #fff;
+    background: #222;
     .bg-wrapper {
       position: absolute;
       left: 0;
@@ -134,17 +182,20 @@ export default {
           transform: rotate(-90deg);
           font-size: 20px;
           display: block;
+          color: $color-theme;
         }
       }
       .name {
         height: 40px;
         line-height: 40px;
         text-align: center;
+        color: #fff;
       }
       .singers {
         height: 20px;
         line-height: 20px;
         text-align: center;
+        color: #fff;
       }
     }
     .middle {
@@ -189,6 +240,7 @@ export default {
           flex: 0 0 40px;
           line-height: 30px;
           width: 40px;
+          color: #fff;
           &.time-left {
             text-align: left;
           }
@@ -206,6 +258,21 @@ export default {
         .icon {
           flex: 1;
           color: $color-theme;
+          &:nth-child(1),
+          &:nth-child(2) {
+            text-align: right;
+          }
+          &:nth-child(4),
+          &:nth-child(5) {
+            text-align: left;
+          }
+          &:nth-child(3) {
+            text-align: center;
+            padding: 0 20px;
+            i {
+              font-size: 40px;
+            }
+          }
           &.disable {
             color: $color-theme-d;
           }

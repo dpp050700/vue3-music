@@ -1,6 +1,7 @@
 import { useStore } from "vuex";
 import { getStoreGetter } from "@/common/utils/help.js";
 import { computed } from "vue";
+import { SET_FULL_SCREEN } from "@/store/player/mutation-type.js";
 
 export default function usePlayerStore() {
   const store = useStore();
@@ -18,14 +19,18 @@ export default function usePlayerStore() {
 
   const playIcon = computed(() => {
     if (playing.value) {
-      return "icon-pause";
+      return isFull.value ? "icon-pause" : "icon-pause-mini";
     }
-    return "icon-play";
+    return isFull.value ? "icon-play" : "icon-play-mini";
   });
 
   const currentIndex = computed(() =>
     getStoreGetter(store, "currentIndex", "player")
   );
+
+  function toggleFullScreen(isFull) {
+    store.commit(`player/${SET_FULL_SCREEN}`, isFull);
+  }
 
   return {
     isFull,
@@ -36,5 +41,6 @@ export default function usePlayerStore() {
     playing,
     playIcon,
     currentIndex,
+    toggleFullScreen,
   };
 }

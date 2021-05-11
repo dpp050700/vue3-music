@@ -9,6 +9,7 @@ export const getSongDetail = async (ids) => {
         name: item.name,
         singers: getSingers(item.ar),
         album: item.al,
+        id: item.id,
       };
     }),
   };

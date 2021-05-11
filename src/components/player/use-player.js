@@ -1,34 +1,25 @@
 import { useStore } from "vuex";
-import { getStoreGetter } from "@/common/utils/help.js";
-import { computed } from "vue";
+// import { getStoreGetter } from "@/common/utils/help.js";
+// import { computed } from "vue";
+import usePlayerStore from "./use-player-store";
 import {
   SET_PLAYING_STATE,
   SET_CURRENT_INDEX,
 } from "@/store/player/mutation-type.js";
-export default function usePlayer(audioRef) {
+export default function usePlayer(audioRef, songReady) {
   const store = useStore();
 
-  const isFull = computed(() => getStoreGetter(store, "fullScreen", "player"));
-  const playList = computed(() => getStoreGetter(store, "playList", "player"));
-  const playMode = computed(() => getStoreGetter(store, "mode", "player"));
-  const sequenceList = computed(() =>
-    getStoreGetter(store, "sequenceList", "player")
-  );
-  const currentSong = computed(() =>
-    getStoreGetter(store, "currentSong", "player")
-  );
-  const playing = computed(() => getStoreGetter(store, "playing", "player"));
-
-  const playIcon = computed(() => {
-    if (playing.value) {
-      return "icon-pause";
-    }
-    return "icon-play";
-  });
-
-  const currentIndex = computed(() =>
-    getStoreGetter(store, "currentIndex", "player")
-  );
+  const {
+    isFull,
+    playList,
+    playMode,
+    sequenceList,
+    currentSong,
+    playing,
+    playIcon,
+    currentIndex,
+    toggleFullScreen,
+  } = usePlayerStore();
 
   function togglePlay(isPlaying) {
     if (isPlaying === undefined) {
@@ -46,6 +37,9 @@ export default function usePlayer(audioRef) {
 
   function prev() {
     const list = playList.value;
+    if (!songReady.value || list.length === 0) {
+      return;
+    }
     if (list.length === 1) {
       loop();
     } else {
@@ -59,6 +53,9 @@ export default function usePlayer(audioRef) {
 
   function next() {
     const list = playList.value;
+    if (!songReady.value || list.length === 0) {
+      return;
+    }
     if (list.length === 1) {
       loop();
     } else {
@@ -82,5 +79,6 @@ export default function usePlayer(audioRef) {
     togglePlay,
     prev,
     next,
+    toggleFullScreen,
   };
 }

@@ -24,7 +24,7 @@
 
 <script>
 import ProgressCircle from "./progress-circle";
-import usePlayer from "./use-player";
+import usePlayerStore from "./use-player-store";
 export default {
   name: "",
   props: {
@@ -50,7 +50,7 @@ export default {
       sequenceList,
       playMode,
       playIcon,
-    } = usePlayer();
+    } = usePlayerStore();
     return {
       isFull,
       currentSong,

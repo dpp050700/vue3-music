@@ -29,7 +29,7 @@ export default {
     height: 4px;
     position: relative;
     top: 13px;
-    background: $color-theme-d;
+    background: rgba(0, 0, 0, 0.3);
     .progress {
       position: absolute;
       height: 100%;
