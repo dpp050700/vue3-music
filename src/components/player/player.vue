@@ -21,7 +21,7 @@
       <div class="middle"></div>
       <div class="bottom">
         <div class="dot-wrapper">
-          <div class="dot"></div>
+          <div class="dot active"></div>
           <div class="dot"></div>
         </div>
         <div class="progress-wrapper">
@@ -33,7 +33,7 @@
         </div>
         <div class="operate-wrapper">
           <div class="icon">
-            <i class="icon-loop"></i>
+            <i :class="modeIcon" @click="changeMode"></i>
           </div>
           <div class="icon">
             <i class="icon-prev" @click="prev"></i>
@@ -57,13 +57,26 @@
         </div>
       </div>
     </div>
-    <mini-player :progress="progress"></mini-player>
+    <mini-player
+      :progress="progress"
+      @toggle-screen="
+        () => {
+          toggleFullScreen(true);
+        }
+      "
+      @toggle-play="
+        () => {
+          togglePlay();
+        }
+      "
+    ></mini-player>
     <audio ref="audioRef" @canplay="ready" @error="error"></audio>
   </div>
 </template>
 
 <script>
 import usePlayer from "./use-player";
+import useMode from "./use-mode";
 import MiniPlayer from "./mini-player";
 import ProgressBar from "./progress-bar";
 import { ref, watch } from "vue";
@@ -89,11 +102,13 @@ export default {
       currentSong,
       playIcon,
       playing,
+      toggleFullScreen,
       togglePlay,
       next,
       prev,
-      toggleFullScreen,
     } = usePlayer(audioRef, songReady);
+
+    const { changeMode, modeIcon } = useMode();
 
     watch(currentSong, (newSong) => {
       if (!newSong.id) {
@@ -131,6 +146,9 @@ export default {
 
     return {
       audioRef,
+      ready,
+      error,
+      // use-player
       playList,
       isFull,
       currentSong,
@@ -139,8 +157,9 @@ export default {
       toggleFullScreen,
       next,
       prev,
-      ready,
-      error,
+      // use-mode
+      changeMode,
+      modeIcon,
     };
   },
 };
@@ -190,6 +209,8 @@ export default {
         line-height: 40px;
         text-align: center;
         color: #fff;
+        padding: 0 52px;
+        @include no-wrap;
       }
       .singers {
         height: 20px;

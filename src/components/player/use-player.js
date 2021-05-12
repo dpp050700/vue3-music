@@ -32,7 +32,7 @@ export default function usePlayer(audioRef, songReady) {
     const audioEl = audioRef.value;
     audioEl.currentTime = 0;
     audioEl.play();
-    togglePlay(false);
+    togglePlay(true);
   }
 
   function prev() {

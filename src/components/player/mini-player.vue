@@ -1,8 +1,8 @@
 <template>
   <div class="mini-player" v-show="!isFull">
     <div class="cd-wrapper">
-      <div class="cd">
-        <img class="playing" :src="currentSong.album?.picUrl" />
+      <div class="cd" @click="toggleScreen">
+        <img :class="cdClass" :src="currentSong.album?.picUrl" />
       </div>
     </div>
     <div class="play-list-slider">
@@ -13,7 +13,7 @@
     </div>
     <div class="control">
       <progress-circle :radius="32" :progress="progress">
-        <i class="play-statu-icon" :class="playIcon"></i>
+        <i class="play-statu-icon" :class="playIcon" @click="togglePlay"></i>
       </progress-circle>
     </div>
     <div class="control">
@@ -23,10 +23,12 @@
 </template>
 
 <script>
+import { computed } from "vue";
 import ProgressCircle from "./progress-circle";
 import usePlayerStore from "./use-player-store";
 export default {
   name: "",
+  emits: ["toggle-screen", "toggle-play"],
   props: {
     progress: Number,
   },
@@ -41,7 +43,14 @@ export default {
       return this.currentSong.album?.picUrl;
     },
   },
-  methods: {},
+  methods: {
+    toggleScreen() {
+      this.$emit("toggle-screen");
+    },
+    togglePlay() {
+      this.$emit("toggle-play");
+    },
+  },
   setup() {
     const {
       isFull,
@@ -50,7 +59,11 @@ export default {
       sequenceList,
       playMode,
       playIcon,
+      playing,
     } = usePlayerStore();
+    const cdClass = computed(() => {
+      return playing.value ? "playing" : "pause";
+    });
     return {
       isFull,
       currentSong,
@@ -58,6 +71,7 @@ export default {
       playMode,
       sequenceList,
       playIcon,
+      cdClass,
     };
   },
 };
@@ -128,9 +142,10 @@ export default {
     color: $color-theme;
     .play-statu-icon {
       position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
+      left: 0;
+      top: 0;
+      font-size: 32px;
+      color: $color-theme-d;
     }
     .play-list-icon {
       font-size: 30px;

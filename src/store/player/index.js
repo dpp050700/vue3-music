@@ -48,6 +48,18 @@ export default {
       commit(mutationsType.SET_PLAYING_STATE, true);
       commit(mutationsType.SET_CURRENT_INDEX, 0);
     },
+    changeMode({ commit, getters }, mode) {
+      console.log(getters.currentSong);
+      const currentSong = getters.currentSong;
+      const list = getters.sequenceList.slice();
+      const playList = mode === PLAY_MODE.random ? shuffle(list) : list;
+      const index = playList.findIndex((song) => {
+        return song.id === currentSong.id;
+      });
+      commit(mutationsType.SET_PLAY_LIST, playList);
+      commit(mutationsType.SET_CURRENT_INDEX, index);
+      commit(mutationsType.SET_PLAYER_MODE, mode);
+    },
   },
   getters: {
     mode: (state) => state.mode,
