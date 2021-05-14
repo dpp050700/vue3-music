@@ -26,15 +26,15 @@
         </div>
       </div>
     </scroll>
+    <router-view></router-view>
   </div>
-  <router-view></router-view>
 </template>
 
 <script>
 import { getBanner, getHotRecommend } from "@/request/recommend";
 import Slider from "@/components/base/slider/slider";
 import CountTag from "@/components/base/countTag/countTag";
-import Scroll from "@/components/base/scroll/scroll";
+import Scroll from "@/components/scroll-wrap/index.js";
 export default {
   name: "Recommend",
   components: {

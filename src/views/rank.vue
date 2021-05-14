@@ -54,7 +54,7 @@ export default {
     return {
       officialList: [],
       globalList: [],
-      artistToplist: {},
+      artistToplist: [],
       singerTopCover,
       loading: true,
       loadingConfig: {

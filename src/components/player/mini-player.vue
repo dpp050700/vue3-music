@@ -2,7 +2,11 @@
   <div class="mini-player" v-show="!isFull">
     <div class="cd-wrapper">
       <div class="cd" @click="toggleScreen">
-        <img :class="cdClass" :src="currentSong.album?.picUrl" />
+        <img
+          class="playing"
+          :class="cdClass"
+          :src="currentSong.album?.picUrl"
+        />
       </div>
     </div>
     <div class="play-list-slider">
@@ -62,7 +66,7 @@ export default {
       playing,
     } = usePlayerStore();
     const cdClass = computed(() => {
-      return playing.value ? "playing" : "pause";
+      return playing.value ? "" : "pause";
     });
     return {
       isFull,

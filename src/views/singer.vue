@@ -43,7 +43,7 @@
 import { ref } from "vue";
 import HorizonShortcut from "@/components/base/horizon-shortcut/horizon-shortcut";
 import { getSingerList } from "@/request/singers";
-import Scroll from "@/components/base/scroll/scroll.vue";
+import Scroll from "@/components/scroll-wrap";
 import SingerList from "../components/singer-list/singer-list.vue";
 import usePagination from "@/hooks/use-pagination.js";
 export default {
