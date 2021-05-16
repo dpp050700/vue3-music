@@ -52,7 +52,10 @@
             <i class="icon-next" @click="next"></i>
           </div>
           <div class="icon">
-            <i class="icon-favorite"></i>
+            <i
+              :class="getFavoriteIcon(currentSong)"
+              @click="toggleFavorite(currentSong)"
+            ></i>
           </div>
         </div>
       </div>
@@ -77,6 +80,7 @@
 <script>
 import usePlayer from "./use-player";
 import useMode from "./use-mode";
+import useFavorite from "./use-favorite";
 import MiniPlayer from "./mini-player";
 import ProgressBar from "./progress-bar";
 import { ref, watch } from "vue";
@@ -110,6 +114,8 @@ export default {
 
     const { changeMode, modeIcon } = useMode();
 
+    const { getFavoriteIcon, toggleFavorite } = useFavorite();
+
     watch(currentSong, (newSong) => {
       if (!newSong.id) {
         return;
@@ -142,6 +148,7 @@ export default {
 
     function error() {
       songReady.value = true;
+      next();
     }
 
     return {
@@ -160,6 +167,9 @@ export default {
       // use-mode
       changeMode,
       modeIcon,
+      // use-favorite
+      getFavoriteIcon,
+      toggleFavorite,
     };
   },
 };

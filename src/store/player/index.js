@@ -1,6 +1,8 @@
 import { PLAY_MODE } from "@/common/config/index";
 import * as mutationsType from "./mutation-type";
 import { shuffle } from "@/common/utils/help";
+import { getStorage } from "@/common/utils/arr-storage.js";
+import { FAVORITE_KEY } from "@/common/config/index";
 export default {
   namespaced: true,
   state: {
@@ -10,6 +12,7 @@ export default {
     currentIndex: 0,
     fullScreen: false,
     playing: false,
+    favoriteList: getStorage(FAVORITE_KEY),
   },
   mutations: {
     [mutationsType.SET_PLAYER_MODE](state, mode) {
@@ -29,6 +32,9 @@ export default {
     },
     [mutationsType.SET_PLAYING_STATE](state, playingState) {
       state.playing = playingState;
+    },
+    [mutationsType.SET_FAVORITE_LIST](state, list) {
+      state.favoriteList = list;
     },
   },
   actions: {
@@ -69,5 +75,6 @@ export default {
     fullScreen: (state) => state.fullScreen,
     currentIndex: (state) => state.currentIndex,
     currentSong: (state) => state.playList[state.currentIndex] || {},
+    favoriteList: (state) => state.favoriteList,
   },
 };
