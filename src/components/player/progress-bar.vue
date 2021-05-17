@@ -1,8 +1,14 @@
 <template>
   <div class="progress-bar">
     <div class="progress-inner">
-      <div class="progress"></div>
-      <div class="progress-btn-wrapper">
+      <div class="progress" ref="progress" :style="progressStyle"></div>
+      <div
+        class="progress-btn-wrapper"
+        :style="progressBtnStyle"
+        @touchstart.prevent="onTouchStart"
+        @touchmove.prevent="onTouchMove"
+        @touchend.prevent="onTouchEnd"
+      >
         <div class="progress-btn"></div>
       </div>
     </div>
@@ -10,15 +16,63 @@
 </template>
 
 <script>
+const progressBtnWidth = 16;
 export default {
   name: "",
   props: {
     progress: Number,
   },
+  emits: ["progress-changing", "progress-changed"],
   data() {
-    return {};
+    return {
+      offset: 0,
+    };
   },
-  methods: {},
+  created() {
+    this.touch = {};
+  },
+  computed: {
+    progressStyle() {
+      return {
+        width: `${this.offset}px`,
+      };
+    },
+    progressBtnStyle() {
+      return { transform: `translateX(${this.offset}px` };
+    },
+  },
+  watch: {
+    progress(val) {
+      this.setOffset(val);
+    },
+  },
+  methods: {
+    onTouchStart(e) {
+      this.touch.x1 = e.touches[0].pageX;
+      this.touch.progressBeginWidth = this.$refs.progress.clientWidth;
+    },
+    onTouchMove(e) {
+      console.log(e);
+      const delta = e.touches[0].pageX - this.touch.x1;
+      const progressWidth = this.touch.progressBeginWidth + delta;
+      const progressBarWidth = this.$el.clientWidth - progressBtnWidth;
+      const progress = Math.min(
+        1,
+        Math.max(progressWidth / progressBarWidth, 0)
+      );
+      this.offset = progressBarWidth * progress;
+      this.$emit("progress-changing", progress);
+    },
+    onTouchEnd() {
+      const progressBarWidth = this.$el.clientWidth - progressBtnWidth;
+      const progress = this.$refs.progress.clientWidth / progressBarWidth;
+      this.$emit("progress-changed", progress);
+    },
+    setOffset(progress) {
+      const progressBarWidth = this.$el.clientWidth - progressBtnWidth;
+      this.offset = progressBarWidth * progress;
+    },
+  },
 };
 </script>
 

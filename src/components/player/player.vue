@@ -25,11 +25,15 @@
           <div class="dot"></div>
         </div>
         <div class="progress-wrapper">
-          <span class="time time-left">00:00</span>
+          <span class="time time-left">{{ formatTime(currentTime) }}</span>
           <span class="progress-bar-wrapper">
-            <progress-bar></progress-bar>
+            <progress-bar
+              :progress="progress"
+              @progress-changed="onProgressChanged"
+              @progress-changing="onProgressChanging"
+            ></progress-bar>
           </span>
-          <span class="time time-right">04:28</span>
+          <span class="time time-right">{{ formatTime(currentSong.dt) }}</span>
         </div>
         <div class="operate-wrapper">
           <div class="icon">
@@ -73,7 +77,12 @@
         }
       "
     ></mini-player>
-    <audio ref="audioRef" @canplay="ready" @error="error"></audio>
+    <audio
+      ref="audioRef"
+      @canplay="ready"
+      @error="error"
+      @timeupdate="updateTime"
+    ></audio>
   </div>
 </template>
 
@@ -83,8 +92,8 @@ import useMode from "./use-mode";
 import useFavorite from "./use-favorite";
 import MiniPlayer from "./mini-player";
 import ProgressBar from "./progress-bar";
-import { ref, watch } from "vue";
-import { getSongUrl } from "@/common/utils/help.js";
+import { ref, watch, computed } from "vue";
+import { getSongUrl, formatTime } from "@/common/utils/help.js";
 export default {
   name: "",
   components: {
@@ -92,14 +101,14 @@ export default {
     ProgressBar,
   },
   data() {
-    return {
-      progress: 0.3,
-    };
+    return {};
   },
   methods: {},
   setup() {
     const audioRef = ref();
     const songReady = ref(false);
+    const currentTime = ref(0);
+    let progressChanging = false;
     const {
       playList,
       isFull,
@@ -115,6 +124,10 @@ export default {
     const { changeMode, modeIcon } = useMode();
 
     const { getFavoriteIcon, toggleFavorite } = useFavorite();
+
+    const progress = computed(() => {
+      return currentTime.value / currentSong.value.dt;
+    });
 
     watch(currentSong, (newSong) => {
       if (!newSong.id) {
@@ -150,11 +163,36 @@ export default {
       songReady.value = true;
       next();
     }
+    function updateTime(e) {
+      if (!progressChanging) {
+        currentTime.value = e.target.currentTime;
+      }
+    }
+
+    function onProgressChanged(progress) {
+      progressChanging = false;
+      audioRef.value.currentTime = currentTime.value =
+        currentSong.value.dt * progress;
+      if (!playing.value) {
+        togglePlay(true);
+      }
+    }
+
+    function onProgressChanging(progress) {
+      progressChanging = true;
+      currentTime.value = currentSong.value.dt * progress;
+    }
 
     return {
       audioRef,
       ready,
       error,
+      currentTime,
+      progress,
+      updateTime,
+      formatTime,
+      onProgressChanged,
+      onProgressChanging,
       // use-player
       playList,
       isFull,

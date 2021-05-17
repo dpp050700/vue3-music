@@ -10,6 +10,7 @@ export const getSongDetail = async (ids) => {
         singers: getSingers(item.ar),
         album: item.al,
         id: item.id,
+        dt: item.dt / 1000,
       };
     }),
   };

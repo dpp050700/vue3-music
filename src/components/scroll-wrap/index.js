@@ -18,7 +18,6 @@ export default {
   render(ctx) {
     const emitsEvent = {
       onScroll: (e) => {
-        console.log(11);
         ctx.$emit("scroll", e);
       },
       onPullUp: (e) => {

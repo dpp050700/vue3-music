@@ -29,3 +29,10 @@ export const getStoreGetter = (store, name, module) => {
 export const getSongUrl = (id) => {
   return `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
 };
+
+export const formatTime = (interval) => {
+  interval = interval | 0;
+  const minute = (((interval / 60) | 0) + "").padStart(2, "0");
+  const second = ((interval % 60) + "").padStart(2, "0");
+  return `${minute}:${second}`;
+};
