@@ -82,6 +82,7 @@
       @canplay="ready"
       @error="error"
       @timeupdate="updateTime"
+      @ended="end"
     ></audio>
   </div>
 </template>
@@ -94,6 +95,7 @@ import MiniPlayer from "./mini-player";
 import ProgressBar from "./progress-bar";
 import { ref, watch, computed } from "vue";
 import { getSongUrl, formatTime } from "@/common/utils/help.js";
+import { PLAY_MODE } from "@/common/config";
 export default {
   name: "",
   components: {
@@ -115,10 +117,12 @@ export default {
       currentSong,
       playIcon,
       playing,
+      playMode,
       toggleFullScreen,
       togglePlay,
       next,
       prev,
+      loop,
     } = usePlayer(audioRef, songReady);
 
     const { changeMode, modeIcon } = useMode();
@@ -163,6 +167,16 @@ export default {
       songReady.value = true;
       next();
     }
+
+    function end() {
+      currentTime.value = 0;
+      if (playMode.value === PLAY_MODE.loop) {
+        loop();
+      } else {
+        next();
+      }
+    }
+
     function updateTime(e) {
       if (!progressChanging) {
         currentTime.value = e.target.currentTime;
@@ -187,6 +201,7 @@ export default {
       audioRef,
       ready,
       error,
+      end,
       currentTime,
       progress,
       updateTime,

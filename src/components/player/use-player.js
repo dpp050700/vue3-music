@@ -79,6 +79,7 @@ export default function usePlayer(audioRef, songReady) {
     togglePlay,
     prev,
     next,
+    loop,
     toggleFullScreen,
   };
 }

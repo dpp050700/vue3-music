@@ -1,5 +1,5 @@
 <template>
-  <div class="progress-bar">
+  <div class="progress-bar" @click="clickProgress">
     <div class="progress-inner">
       <div class="progress" ref="progress" :style="progressStyle"></div>
       <div
@@ -66,6 +66,13 @@ export default {
     onTouchEnd() {
       const progressBarWidth = this.$el.clientWidth - progressBtnWidth;
       const progress = this.$refs.progress.clientWidth / progressBarWidth;
+      this.$emit("progress-changed", progress);
+    },
+    clickProgress(e) {
+      const rect = this.$el.getBoundingClientRect();
+      const offsetWidth = e.pageX - rect.left;
+      const progressBarWidth = this.$el.clientWidth - progressBtnWidth;
+      const progress = offsetWidth / progressBarWidth;
       this.$emit("progress-changed", progress);
     },
     setOffset(progress) {
