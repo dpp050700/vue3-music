@@ -18,7 +18,19 @@
         <div class="name">{{ currentSong.name }}</div>
         <div class="singers">{{ currentSong.singers }}</div>
       </div>
-      <div class="middle"></div>
+      <div class="middle">
+        <div class="middle-l">
+          <div class="cd-wrapper">
+            <div class="cd">
+              <img
+                class="image playing"
+                :class="cdClass"
+                :src="currentSong.album?.picUrl"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="bottom">
         <div class="dot-wrapper">
           <div class="dot active"></div>
@@ -133,6 +145,10 @@ export default {
       return currentTime.value / currentSong.value.dt;
     });
 
+    const cdClass = computed(() => {
+      return playing.value ? "" : "pause";
+    });
+
     watch(currentSong, (newSong) => {
       if (!newSong.id) {
         return;
@@ -204,6 +220,7 @@ export default {
       end,
       currentTime,
       progress,
+      cdClass,
       updateTime,
       formatTime,
       onProgressChanged,
@@ -289,6 +306,43 @@ export default {
       bottom: 170px;
       white-space: nowrap;
       font-size: 0;
+      .middle-l {
+        display: inline-block;
+        vertical-align: top;
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-top: 80%;
+        .cd-wrapper {
+          position: absolute;
+          left: 10%;
+          top: 0;
+          width: 80%;
+          box-sizing: border-box;
+          height: 100%;
+          .cd {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            img {
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 100%;
+              height: 100%;
+              box-sizing: border-box;
+              border-radius: 50%;
+              border: 10px solid rgba(255, 255, 255, 0.1);
+              &.playing {
+                animation: rotate 10s linear infinite;
+              }
+              &.pause {
+                animation-play-state: paused;
+              }
+            }
+          }
+        }
+      }
     }
     .bottom {
       position: absolute;
