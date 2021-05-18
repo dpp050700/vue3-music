@@ -5,7 +5,7 @@ export const addClass = (el, className) => {
 };
 
 export const removeClass = (el, className) => {
-  if (!el.classList.contains(className)) {
+  if (el.classList.contains(className)) {
     el.classList.remove(className);
   }
 };

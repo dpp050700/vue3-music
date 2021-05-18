@@ -237,6 +237,10 @@ export default {
       left: 10px;
       font-size: 28px;
     }
+    h1 {
+      padding: 0 52px;
+      @include no-wrap();
+    }
   }
 }
 </style>

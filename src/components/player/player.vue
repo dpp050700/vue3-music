@@ -23,6 +23,7 @@
           <div class="cd-wrapper">
             <div class="cd">
               <img
+                ref="cdRef"
                 class="image playing"
                 :class="cdClass"
                 :src="currentSong.album?.picUrl"
@@ -103,6 +104,7 @@
 import usePlayer from "./use-player";
 import useMode from "./use-mode";
 import useFavorite from "./use-favorite";
+import useCd from "./use-cd";
 import MiniPlayer from "./mini-player";
 import ProgressBar from "./progress-bar";
 import { ref, watch, computed } from "vue";
@@ -141,12 +143,10 @@ export default {
 
     const { getFavoriteIcon, toggleFavorite } = useFavorite();
 
+    const { cdRef, cdClass, initTransform } = useCd(playing);
+
     const progress = computed(() => {
       return currentTime.value / currentSong.value.dt;
-    });
-
-    const cdClass = computed(() => {
-      return playing.value ? "" : "pause";
     });
 
     watch(currentSong, (newSong) => {
@@ -158,6 +158,7 @@ export default {
       audioEl.src = getSongUrl(newSong.id);
       audioEl.play();
       togglePlay(true);
+      initTransform();
     });
 
     watch(playing, (newPlaying) => {
@@ -220,7 +221,6 @@ export default {
       end,
       currentTime,
       progress,
-      cdClass,
       updateTime,
       formatTime,
       onProgressChanged,
@@ -240,6 +240,9 @@ export default {
       // use-favorite
       getFavoriteIcon,
       toggleFavorite,
+      // use-cd
+      cdRef,
+      cdClass,
     };
   },
 };

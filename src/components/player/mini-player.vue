@@ -3,6 +3,7 @@
     <div class="cd-wrapper">
       <div class="cd" @click="toggleScreen">
         <img
+          ref="cdRef"
           class="playing"
           :class="cdClass"
           :src="currentSong.album?.picUrl"
@@ -27,9 +28,10 @@
 </template>
 
 <script>
-import { computed } from "vue";
+import { watch } from "vue";
 import ProgressCircle from "./progress-circle";
 import usePlayerStore from "./use-player-store";
+import useCd from "./use-cd";
 export default {
   name: "",
   emits: ["toggle-screen", "toggle-play"],
@@ -65,9 +67,16 @@ export default {
       playIcon,
       playing,
     } = usePlayerStore();
-    const cdClass = computed(() => {
-      return playing.value ? "" : "pause";
+
+    const { cdClass, cdRef, initTransform } = useCd(playing);
+
+    watch(currentSong, (newSong) => {
+      if (!newSong.id) {
+        return;
+      }
+      initTransform();
     });
+
     return {
       isFull,
       currentSong,
@@ -75,7 +84,9 @@ export default {
       playMode,
       sequenceList,
       playIcon,
+      // use-cd
       cdClass,
+      cdRef,
     };
   },
 };
