@@ -105,6 +105,7 @@ import usePlayer from "./use-player";
 import useMode from "./use-mode";
 import useFavorite from "./use-favorite";
 import useCd from "./use-cd";
+import useLyric from "./use-lyric";
 import MiniPlayer from "./mini-player";
 import ProgressBar from "./progress-bar";
 import { ref, watch, computed } from "vue";
@@ -144,6 +145,8 @@ export default {
     const { getFavoriteIcon, toggleFavorite } = useFavorite();
 
     const { cdRef, cdClass, initTransform } = useCd(playing);
+
+    useLyric();
 
     const progress = computed(() => {
       return currentTime.value / currentSong.value.dt;

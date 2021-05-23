@@ -17,4 +17,9 @@ export const getSongDetail = async (ids) => {
   };
 };
 
+export const getLyric = async (id) => {
+  let { lrc = {} } = await get(`/lyric?id=${id}`);
+  return lrc.lyric || "[00:00.000]暂无歌词";
+};
+
 // /playlist/tracks

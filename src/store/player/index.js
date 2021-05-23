@@ -36,6 +36,13 @@ export default {
     [mutationsType.SET_FAVORITE_LIST](state, list) {
       state.favoriteList = list;
     },
+    [mutationsType.SET_SONG_LYRIC](state, { id, lyric }) {
+      state.playList.forEach((item) => {
+        if (item.id === id) {
+          item.lyric = lyric;
+        }
+      });
+    },
   },
   actions: {
     selectPlay({ commit }, { list, index }) {
