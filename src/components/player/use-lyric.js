@@ -20,7 +20,13 @@ export default function useLyric() {
       });
     }
     currentLyric.value = new Lyric(currentSongVal.lyric, handleLyric);
+
+    console.log(currentLyric.value);
   });
 
   function handleLyric() {}
+
+  return {
+    currentLyric,
+  };
 }
