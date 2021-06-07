@@ -1,6 +1,7 @@
 import { get } from "./axios";
 import pinyin from "pinyin";
-import { getSingers } from "@/common/utils/help";
+// import { getSingers } from "@/common/utils/help";
+import { getSongDetail } from "./song";
 
 const getInitial = (name) => {
   const p = pinyin(name, { style: pinyin.STYLE_NORMAL });
@@ -101,18 +102,30 @@ export const getSingerSongs = async ({ id, limit, offset }) => {
     `/artist/songs?id=${id}&limit=${limit}&offset=${offset}`
   );
 
-  const lists = songs.map((item) => {
-    return {
-      name: item.name,
-      singers: getSingers(item.ar),
-      album: item.al,
-    };
-  });
+  const res = await getSongDetail(songs.map((item) => item.id));
 
   return {
-    lists,
-    more,
+    lists: res.songs,
+    more: more,
   };
+  // const lists = songs.map((item) => {
+  //   item.al.picUrl =
+  //     "https://p1.music.126.net/jOrfzq4tB9ENWQVWLhi3Ag==/" +
+  //     item.al.pic_str +
+  //     ".jpg?param=300x300";
+  //   console.log(item);
+  //   return {
+  //     name: item.name,
+  //     singers: getSingers(item.ar),
+  //     album: item.al,
+  //     id: item.id,
+  //   };
+  // });
+
+  // return {
+  //   lists,
+  //   more,
+  // };
 };
 
 export const getSingerDetail = async (id) => {
